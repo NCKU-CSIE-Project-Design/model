@@ -27,7 +27,7 @@ def create_dataset(dataset, look_back):
         X.append(a)
         Y.append(dataset[i + look_back, 3])  # 使用 'Close' 作為預測目標
     return np.array(X), np.array(Y)
-look_back = 10
+look_back = 5
 X_train, y_train = create_dataset(scaled_train, look_back)
 X_test, y_test = create_dataset(scaled_test, look_back)
 # 調整數據形狀以適應 LSTM [samples, time steps, features]
@@ -35,8 +35,8 @@ X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], X_train.shape
 X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], X_test.shape[2]))
 # 構建 LSTM 模型
 model = Sequential()
-model.add(LSTM(60,activation='relu', input_shape=(look_back, X_train.shape[2],), kernel_regularizer=l2(0.1),return_sequences=True))
-model.add(Dropout(0.5))
+model.add(LSTM(50,activation='relu', input_shape=(look_back, X_train.shape[2],), kernel_regularizer=l2(0.1),return_sequences=True))
+model.add(Dropout(0.75))
 model.add(LSTM(50, activation='relu', kernel_regularizer=l2(0.1)))
 model.add(Dropout(0.5))
 model.add(Dense(25))
